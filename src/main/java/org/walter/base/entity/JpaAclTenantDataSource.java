@@ -22,12 +22,15 @@ public class JpaAclTenantDataSource extends AbstractAuditable {
 	@Column(name = "DATASOURCE_ID", length = 255, nullable = false)
 	private String dataSourceId;
 
-	@Column(name = "CONNECTION_STRING", length = 1000, nullable = false)
-	private String connectionString;
+	@Column(name = "DRIVER_CLASS", length = 1000, nullable = false)
+	private String driverClass;
 
-	@Column(name = "CONNECTION_USERNAME", length = 255, nullable = false)
-	private String connectionUsername;
+	@Column(name = "JDBC_URL", length = 1000, nullable = false)
+	private String jdbcUrl;
 
-	@Column(name = "CONNECTION_PASSWORD", length = 255, nullable = false)
-	private String connectionPassword;
+	@Column(name = "DB_USERNAME", length = 255, nullable = false)
+	private String dbUsername;
+
+	@Column(name = "DB_PASSWORD", length = 255, nullable = false)
+	private String dbPassword;
 }

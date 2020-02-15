@@ -6,14 +6,3 @@ server:
   servlet:
     context-path: /
   port: 8080
-
-spring:
-  datasource:
-    password: ''
-    url: jdbc:mysql://localhost/multi_tenant_base?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
-    username: root
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true

@@ -23,4 +23,15 @@ public class MultiTenantRoutingDataSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         return MultiTenantContextHolder.getContextTenantId();
     }
+
+    public DataSource getDefaultDataSource(){
+        MultiTenantContextHolder.switchToDefaultTenant();
+        DataSource defaultDataSource = super.determineTargetDataSource();
+        MultiTenantContextHolder.switchToUserTenant();
+        return defaultDataSource;
+    }
+
+    public DataSource getDetermineTargetDataSource(){
+        return super.determineTargetDataSource();
+    }
 }

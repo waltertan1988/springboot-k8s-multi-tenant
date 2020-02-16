@@ -10,7 +10,7 @@ import org.walter.app.entity.fund.JpaFundAccount;
 import org.walter.app.repository.fund.FundAccountRepository;
 import org.walter.base.entity.JpaAclUser;
 import org.walter.base.repository.AclUserRepository;
-import org.walter.base.service.MultiTenantContextHolder;
+import org.walter.base.tenant.MultiTenantContextHolder;
 
 import java.util.List;
 

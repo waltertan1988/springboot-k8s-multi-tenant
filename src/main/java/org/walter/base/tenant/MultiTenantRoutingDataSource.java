@@ -1,12 +1,14 @@
 package org.walter.base.tenant;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-import org.walter.base.service.MultiTenantContextHolder;
+import org.walter.base.constant.MultiTenantConstant;
 
 import javax.sql.DataSource;
 import java.util.Map;
 
 public class MultiTenantRoutingDataSource extends AbstractRoutingDataSource {
+
+    private DataSource defaultDataSource;
 
     /**
      * 多租户动态数据源
@@ -14,6 +16,12 @@ public class MultiTenantRoutingDataSource extends AbstractRoutingDataSource {
      * @param targetDataSources 多租户数据源
      */
     public MultiTenantRoutingDataSource(DataSource defaultDataSource, Map<Object, Object> targetDataSources){
+        if(targetDataSources.containsKey(MultiTenantConstant.DEFAULT_TENANT_ID)){
+            throw new RuntimeException("租户ID不能使用系统值:" + MultiTenantConstant.DEFAULT_TENANT_ID);
+        }
+        this.defaultDataSource = defaultDataSource;
+        // 把默认数据源加入到多租户数据源中
+        targetDataSources.put(MultiTenantConstant.DEFAULT_TENANT_ID, defaultDataSource);
         super.setDefaultTargetDataSource(defaultDataSource);
         super.setTargetDataSources(targetDataSources);
         super.afterPropertiesSet();
@@ -25,10 +33,7 @@ public class MultiTenantRoutingDataSource extends AbstractRoutingDataSource {
     }
 
     public DataSource getDefaultDataSource(){
-        MultiTenantContextHolder.switchToDefaultTenant();
-        DataSource defaultDataSource = super.determineTargetDataSource();
-        MultiTenantContextHolder.switchToUserTenant();
-        return defaultDataSource;
+        return this.defaultDataSource;
     }
 
     public DataSource getDetermineTargetDataSource(){

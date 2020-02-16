@@ -1,4 +1,6 @@
-package org.walter.base.service;
+package org.walter.base.tenant;
+
+import org.walter.base.constant.MultiTenantConstant;
 
 public class MultiTenantContextHolder {
 
@@ -21,14 +23,14 @@ public class MultiTenantContextHolder {
      * @return
      */
     public static String getContextTenantId(){
-        return contextTenantId.get() == null ? "" : contextTenantId.get();
+        return contextTenantId.get() == null ? MultiTenantConstant.DEFAULT_TENANT_ID : contextTenantId.get();
     }
 
     /**
      * 切换当前上下文的租户ID为默认态
      */
     public static void switchToDefaultTenant(){
-        contextTenantId.remove();
+        contextTenantId.set(MultiTenantConstant.DEFAULT_TENANT_ID);
     }
 
     /**

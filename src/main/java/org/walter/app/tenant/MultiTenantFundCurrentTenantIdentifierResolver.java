@@ -2,7 +2,7 @@ package org.walter.app.tenant;
 
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.stereotype.Component;
-import org.walter.base.service.MultiTenantContextHolder;
+import org.walter.base.tenant.MultiTenantContextHolder;
 
 @Component
 public class MultiTenantFundCurrentTenantIdentifierResolver implements CurrentTenantIdentifierResolver {

@@ -4,7 +4,7 @@ import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTen
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.walter.base.service.MultiTenantContextHolder;
+import org.walter.base.tenant.MultiTenantContextHolder;
 import org.walter.base.tenant.MultiTenantRoutingDataSource;
 
 import javax.sql.DataSource;

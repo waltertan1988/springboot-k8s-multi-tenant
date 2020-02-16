@@ -3,7 +3,6 @@ package org.walter.app.service.fund;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.walter.app.entity.fund.JpaFundAccount;
 import org.walter.app.repository.fund.FundAccountRepository;
@@ -17,7 +16,7 @@ public class FundAccountServiceImpl implements FundAccountService{
     private FundAccountRepository fundAccountRepository;
 
     @Override
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Transactional(transactionManager = "fundMultiTenantJpaTransactionManager", rollbackFor = Exception.class)
     public BigDecimal fundAccountTransfer(String username, String accountType, BigDecimal transferAmount){
         JpaFundAccount jpaFundAccount = fundAccountRepository.findOneByUsernameAndAccountType(username, accountType);
         BigDecimal originalBalanceAmount = jpaFundAccount.getBalanceAmount();

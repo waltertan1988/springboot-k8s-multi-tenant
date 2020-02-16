@@ -57,7 +57,7 @@ public class JpaMultiTenantFundConfig extends AbstractMultiTenantConfig {
         Properties properties = new Properties();
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
-        properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.SCHEMA);
+        properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
         properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantFundConnectionProvider);
         properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, multiTenantFundCurrentTenantIdentifierResolver);
         bean.setJpaProperties(properties);

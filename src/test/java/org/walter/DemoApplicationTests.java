@@ -6,8 +6,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.walter.app.entity.fund.JpaFundAccount;
+import org.walter.app.repository.fund.FundAccountRepository;
 import org.walter.base.entity.JpaAclUser;
 import org.walter.base.repository.AclUserRepository;
+import org.walter.base.service.MultiTenantContextHolder;
+
+import java.util.List;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -15,6 +20,8 @@ import org.walter.base.repository.AclUserRepository;
 public class DemoApplicationTests {
 	@Autowired
 	private AclUserRepository aclUserRepository;
+	@Autowired
+	private FundAccountRepository fundAccountRepository;
 
 	@Test
 	public void contextLoads() {
@@ -22,4 +29,17 @@ public class DemoApplicationTests {
 		log.info(">>>>>> jpaAclUser: {}", jpaAclUser);
 	}
 
+	@Test
+	public void testMultiTenant(){
+
+		MultiTenantContextHolder.initUserTenantId("A");
+
+		JpaAclUser jpaAclUser = aclUserRepository.findByUsernameOrMobile("0009785");
+		log.info(">>>>>> jpaAclUser: {}", jpaAclUser);
+
+		List<JpaFundAccount> jpaFundAccounts = fundAccountRepository.findAll();
+		for (JpaFundAccount jpaFundAccount : jpaFundAccounts) {
+			log.info(">>>>>> jpaFundAccount: {}", jpaFundAccount);
+		}
+	}
 }

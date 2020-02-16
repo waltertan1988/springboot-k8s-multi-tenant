@@ -52,7 +52,7 @@ public class JpaMultiTenantFundConfig extends AbstractMultiTenantConfig {
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setDataSource(fundMultiTenantRoutingDataSource());
         //加载实体类
-        bean.setPackagesToScan("org.walter.app.entity");
+        bean.setPackagesToScan("org.walter.app.entity.fund");
         bean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         Properties properties = new Properties();
         properties.put("hibernate.hbm2ddl.auto", "update");

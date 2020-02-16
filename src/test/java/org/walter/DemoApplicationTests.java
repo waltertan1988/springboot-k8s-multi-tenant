@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.walter.app.entity.fund.JpaFundAccount;
 import org.walter.app.repository.fund.FundAccountRepository;
+import org.walter.app.service.fund.FundAccountBillService;
 import org.walter.base.entity.JpaAclUser;
 import org.walter.base.repository.AclUserRepository;
 
@@ -16,9 +17,11 @@ public class DemoApplicationTests extends BaseTests{
 	private AclUserRepository aclUserRepository;
 	@Autowired
 	private FundAccountRepository fundAccountRepository;
+	@Autowired
+	private FundAccountBillService fundService;
 
 	@Test
-	public void testMultiTenant(){
+	public void testMultiTenantRead(){
 		super.initUserTenantId("A");
 
 		JpaAclUser jpaAclUser = aclUserRepository.findByUsernameOrMobile("0009785");

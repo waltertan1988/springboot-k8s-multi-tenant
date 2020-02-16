@@ -48,19 +48,6 @@ CREATE TABLE `acl_user_tenant` (
   UNIQUE KEY `uk_username_tenantId` (`username`,`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-# 数据源类型表
-CREATE TABLE `acl_datasource` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `datasource_id` varchar(255) COLLATE utf8_bin NOT NULL,
-  `datasource_name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `created_by` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `last_modified_by` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `last_modified_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_datasourceId` (`datasource_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
 # 租户数据源表
 CREATE TABLE `acl_tenant_datasource` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,

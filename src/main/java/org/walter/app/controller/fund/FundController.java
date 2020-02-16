@@ -2,26 +2,29 @@ package org.walter.app.controller.fund;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.walter.app.entity.fund.JpaFundAccount;
 import org.walter.app.repository.fund.FundAccountRepository;
+import org.walter.app.service.fund.FundService;
 import org.walter.base.entity.JpaAclUser;
 import org.walter.base.repository.AclUserRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping(value = "/fund")
-@Transactional
 public class FundController {
     @Autowired
     private AclUserRepository aclUserRepository;
     @Autowired
     private FundAccountRepository fundAccountRepository;
+    @Autowired
+    private FundService fundService;
 
     @GetMapping("/listFundAccount")
     public List<JpaFundAccount> listFundAccount() {
@@ -39,5 +42,16 @@ public class FundController {
             log.info(">>>>>> jpaAclUser: {}", jpaAclUser);
         }
         return list;
+    }
+
+    @GetMapping("/deposit")
+    public String deposit(HttpServletRequest request) throws Exception {
+        String username = "0009785";
+        String accountType = "1";
+        String billCode = "deposit";
+        BigDecimal transferAmount = new BigDecimal(100);
+        Boolean isFail = Boolean.valueOf(request.getParameter("fail"));
+        fundService.deposit(username, accountType, billCode, transferAmount, isFail);
+        return "success";
     }
 }

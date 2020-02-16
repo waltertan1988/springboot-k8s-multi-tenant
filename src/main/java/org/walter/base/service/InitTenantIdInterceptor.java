@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.walter.base.tenant.MultiTenantContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +21,6 @@ public class InitTenantIdInterceptor implements HandlerInterceptor {
         }
         // 初始化用户态的租户ID
         MultiTenantContextHolder.initUserTenantId(tenantId);
-        return false;
+        return true;
     }
 }

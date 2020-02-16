@@ -1,5 +1,6 @@
 package org.walter.app.entity.fund;
 
+import lombok.Data;
 import lombok.ToString;
 import org.walter.base.audit.AbstractAuditable;
 
@@ -9,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.math.BigDecimal;
 
+@Data
 @Entity
 @Table(name = "FUND_ACCOUNT", uniqueConstraints = {
 	@UniqueConstraint(name = "uk_username_accountType", columnNames = {"USERNAME", "ACCOUNT_TYPE"})

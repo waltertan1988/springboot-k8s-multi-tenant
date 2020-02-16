@@ -15,12 +15,11 @@ import org.walter.app.tenant.MultiTenantFundConnectionProviderImpl;
 import org.walter.app.tenant.MultiTenantFundCurrentTenantIdentifierResolver;
 import org.walter.base.entity.JpaAclTenantDataSource;
 import org.walter.base.tenant.AbstractMultiTenantConfig;
-import org.walter.base.tenant.MultiTenantRoutingDataSource;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Fund(清结算)的多租户db配置
@@ -37,14 +36,14 @@ public class JpaMultiTenantFundConfig extends AbstractMultiTenantConfig {
     private MultiTenantFundCurrentTenantIdentifierResolver multiTenantFundCurrentTenantIdentifierResolver;
 
     @Bean
-    public MultiTenantRoutingDataSource fundMultiTenantRoutingDataSource(){
-        Map<Object, Object> targetDataSources = new ConcurrentHashMap<>();
+    public Map<String, DataSource> fundMultiTenantRoutingDataSource(){
+        Map<String, DataSource> targetDataSources = initMultiTenantDataSourceMap();
         List<JpaAclTenantDataSource> jpaAclTenantDataSourceList = aclTenantDataSourceRepository
                 .findAllByDataSourceId(MultiTenantDataSourceTypeEnum.FUND.getCode());
         for (JpaAclTenantDataSource tenantDataSource : jpaAclTenantDataSourceList) {
             targetDataSources.put(tenantDataSource.getTenantId(), createDataSource(tenantDataSource));
         }
-        return new MultiTenantRoutingDataSource(defaultDataSource, targetDataSources);
+        return targetDataSources;
     }
 
     @Bean
@@ -57,8 +56,6 @@ public class JpaMultiTenantFundConfig extends AbstractMultiTenantConfig {
         properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, multiTenantFundCurrentTenantIdentifierResolver);
 
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
-//        bean.setDataSource(fundMultiTenantRoutingDataSource());
-        //加载实体类
         bean.setPackagesToScan("org.walter.app.entity.fund");
         bean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         bean.setJpaProperties(properties);

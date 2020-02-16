@@ -1,4 +1,4 @@
-package org.walter.base.tenant;
+package org.walter.base.service;
 
 import org.walter.base.constant.MultiTenantConstant;
 
@@ -14,8 +14,9 @@ public class MultiTenantContextHolder {
      * 初始化用户态下的租户ID
      * @param userTenantId
      */
-    public static void initUserTenantId(String userTenantId){
+    static void initUserTenantId(String userTenantId){
         MultiTenantContextHolder.userTenantId.set(userTenantId);
+        switchToUserTenant();
     }
 
     /**

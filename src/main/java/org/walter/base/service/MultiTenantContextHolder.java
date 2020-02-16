@@ -2,7 +2,7 @@ package org.walter.base.service;
 
 public class MultiTenantContextHolder {
 
-    private MultiTenantContextHolder(){};
+    private MultiTenantContextHolder(){}
 
     private static final ThreadLocal<String> contextTenantId = new ThreadLocal<>();
 
@@ -12,7 +12,7 @@ public class MultiTenantContextHolder {
      * 初始化用户态下的租户ID
      * @param userTenantId
      */
-    static void initUserTenantId(String userTenantId){
+    public static void initUserTenantId(String userTenantId){
         MultiTenantContextHolder.userTenantId.set(userTenantId);
     }
 
@@ -21,7 +21,7 @@ public class MultiTenantContextHolder {
      * @return
      */
     public static String getContextTenantId(){
-        return contextTenantId.get();
+        return contextTenantId.get() == null ? "" : contextTenantId.get();
     }
 
     /**

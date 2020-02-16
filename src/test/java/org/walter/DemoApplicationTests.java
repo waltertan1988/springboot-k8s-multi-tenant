@@ -31,12 +31,12 @@ public class DemoApplicationTests {
 
 	@Test
 	public void testMultiTenant(){
-
 		MultiTenantContextHolder.initUserTenantId("A");
 
 		JpaAclUser jpaAclUser = aclUserRepository.findByUsernameOrMobile("0009785");
 		log.info(">>>>>> jpaAclUser: {}", jpaAclUser);
 
+		//TODO 此处有问题，执行时好像找了默认数据源，导致没有结果返回
 		List<JpaFundAccount> jpaFundAccounts = fundAccountRepository.findAll();
 		for (JpaFundAccount jpaFundAccount : jpaFundAccounts) {
 			log.info(">>>>>> jpaFundAccount: {}", jpaFundAccount);

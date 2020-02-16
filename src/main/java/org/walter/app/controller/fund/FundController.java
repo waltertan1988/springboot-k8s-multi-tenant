@@ -13,6 +13,7 @@ import org.walter.base.repository.AclUserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -44,9 +45,20 @@ public class FundController {
         return list;
     }
 
+    @GetMapping("/listObject")
+    public List<Object> listObject(){
+        List<Object> list = new ArrayList<>();
+        list.addAll(listFundAccount());
+        list.addAll(listAclUser());
+        return list;
+    }
+
     @GetMapping("/deposit")
     public String deposit(HttpServletRequest request) throws Exception {
         String username = "0009785";
+        if("B".equals(request.getParameter("tenantId"))){
+            username = "walter";
+        }
         String accountType = "1";
         String billCode = "deposit";
         BigDecimal transferAmount = new BigDecimal(100);

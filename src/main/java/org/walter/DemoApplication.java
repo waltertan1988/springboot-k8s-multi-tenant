@@ -7,12 +7,14 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(exclude = {
 		DataSourceAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class,
 		DataSourceTransactionManagerAutoConfiguration.class})
 @EnableJpaAuditing
+@EnableTransactionManagement
 @EnableConfigurationProperties
 public class DemoApplication {
 

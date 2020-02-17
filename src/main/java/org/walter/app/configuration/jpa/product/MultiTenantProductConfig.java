@@ -5,7 +5,6 @@ import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -13,11 +12,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.walter.app.configuration.jpa.MultiTenantCurrentTenantIdentifierResolver;
 import org.walter.app.constant.MultiTenantDataSourceTypeEnum;
-import org.walter.base.entity.JpaAclTenantDataSource;
 import org.walter.base.tenant.AbstractMultiTenantConfig;
 
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -31,19 +28,16 @@ import java.util.Properties;
         transactionManagerRef = "productMultiTenantJpaTransactionManager")
 public class MultiTenantProductConfig extends AbstractMultiTenantConfig {
     @Autowired
-    private MultiTenantProductConnectionProviderImpl multiTenantProductConnectionProvider;
-    @Autowired
     private MultiTenantCurrentTenantIdentifierResolver multiTenantCurrentTenantIdentifierResolver;
 
     @Bean
     public Map<String, DataSource> productMultiTenantRoutingDataSource(){
-        Map<String, DataSource> targetDataSources = initMultiTenantDataSourceMap();
-        List<JpaAclTenantDataSource> jpaAclTenantDataSourceList = aclTenantDataSourceRepository
-                .findAllByDataSourceId(MultiTenantDataSourceTypeEnum.PRODUCT.getCode());
-        for (JpaAclTenantDataSource tenantDataSource : jpaAclTenantDataSourceList) {
-            targetDataSources.put(tenantDataSource.getTenantId(), createDataSource(tenantDataSource));
-        }
-        return targetDataSources;
+        return initMultiTenantDataSourceMap(MultiTenantDataSourceTypeEnum.PRODUCT);
+    }
+
+    @Bean
+    public MultiTenantProductConnectionProvider multiTenantProductConnectionProvider(){
+        return new MultiTenantProductConnectionProvider(productMultiTenantRoutingDataSource());
     }
 
     @Bean
@@ -52,7 +46,7 @@ public class MultiTenantProductConfig extends AbstractMultiTenantConfig {
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
-        properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantProductConnectionProvider);
+        properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantProductConnectionProvider());
         properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, multiTenantCurrentTenantIdentifierResolver);
 
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();

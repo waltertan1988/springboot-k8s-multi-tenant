@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum MultiTenantDataSourceTypeEnum {
 
-    FUND("fund", "清结算");
+    FUND("fund", "清结算"),
+    PRODUCT("product", "商品");
 
     private String code;
     private String desc;

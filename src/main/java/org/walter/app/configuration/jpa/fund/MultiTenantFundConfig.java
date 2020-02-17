@@ -1,4 +1,4 @@
-package org.walter.app.configuration;
+package org.walter.app.configuration.jpa.fund;
 
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
@@ -10,9 +10,8 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.walter.app.configuration.jpa.MultiTenantCurrentTenantIdentifierResolver;
 import org.walter.app.constant.MultiTenantDataSourceTypeEnum;
-import org.walter.app.tenant.MultiTenantFundConnectionProviderImpl;
-import org.walter.app.tenant.MultiTenantFundCurrentTenantIdentifierResolver;
 import org.walter.base.entity.JpaAclTenantDataSource;
 import org.walter.base.tenant.AbstractMultiTenantConfig;
 
@@ -29,11 +28,11 @@ import java.util.Properties;
         basePackages={"org.walter.app.repository.fund"},
         entityManagerFactoryRef = "fundMultiTenantEntityManagerFactory",
         transactionManagerRef = "fundMultiTenantJpaTransactionManager")
-public class JpaMultiTenantFundConfig extends AbstractMultiTenantConfig {
+public class MultiTenantFundConfig extends AbstractMultiTenantConfig {
     @Autowired
     private MultiTenantFundConnectionProviderImpl multiTenantFundConnectionProvider;
     @Autowired
-    private MultiTenantFundCurrentTenantIdentifierResolver multiTenantFundCurrentTenantIdentifierResolver;
+    private MultiTenantCurrentTenantIdentifierResolver multiTenantCurrentTenantIdentifierResolver;
 
     @Bean
     public Map<String, DataSource> fundMultiTenantRoutingDataSource(){
@@ -53,7 +52,7 @@ public class JpaMultiTenantFundConfig extends AbstractMultiTenantConfig {
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         properties.put(Environment.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
         properties.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantFundConnectionProvider);
-        properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, multiTenantFundCurrentTenantIdentifierResolver);
+        properties.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, multiTenantCurrentTenantIdentifierResolver);
 
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setPackagesToScan("org.walter.app.entity.fund");

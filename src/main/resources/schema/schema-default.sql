@@ -21,6 +21,7 @@ CREATE TABLE `acl_user` (
 insert into `acl_user` (`id`, `username`, `password`, `user_real_name`, `mobile`, `gender`, `is_expired`, `is_locked`, `is_password_expired`, `is_enabled`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values(null,'0009785','$2a$10$8r2tGdMtSLfEHbYV/3ZmE.90ivYb7h1y7TyHy86l9mDADMA89SH2O','walter.tan','13123456789','M','','','','','*ADMIN',now(),'*ADMIN',now());
 insert into `acl_user` (`id`, `username`, `password`, `user_real_name`, `mobile`, `gender`, `is_expired`, `is_locked`, `is_password_expired`, `is_enabled`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values(null,'walter','$2a$10$8r2tGdMtSLfEHbYV/3ZmE.90ivYb7h1y7TyHy86l9mDADMA89SH2O','waltertan','13987654321','M','','','','','*ADMIN',now(),'*ADMIN',now());
 
+
 # 租户表
 CREATE TABLE `acl_tenant` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -34,6 +35,9 @@ CREATE TABLE `acl_tenant` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_tenantId` (`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+insert into `acl_tenant` (`tenant_id`, `tenant_name`, `is_enabled`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('A','A租户','','*ADMIN','2020-02-15 20:09:21','*ANONYMOUS','2020-02-15 12:23:44');
+insert into `acl_tenant` (`tenant_id`, `tenant_name`, `is_enabled`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('B','B租户','','*ADMIN','2020-02-15 20:09:49','*ANONYMOUS','2020-02-15 12:23:44');
+
 
 # 用户租户表
 CREATE TABLE `acl_user_tenant` (
@@ -47,6 +51,9 @@ CREATE TABLE `acl_user_tenant` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_username_tenantId` (`username`,`tenant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+insert into `acl_user_tenant` (`username`, `tenant_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('0009785','A','*ADMIN','2020-02-15 20:11:25','*ADMIN','2020-02-15 20:11:31');
+insert into `acl_user_tenant` (`username`, `tenant_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('walter','B','*ADMIN','2020-02-15 20:11:27','*ADMIN','2020-02-15 20:11:34');
+
 
 # 租户数据源表
 CREATE TABLE `acl_tenant_datasource` (
@@ -64,3 +71,8 @@ CREATE TABLE `acl_tenant_datasource` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_tenant_datasource` (`tenant_id`,`datasource_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+insert into `acl_tenant_datasource` (`tenant_id`, `datasource_id`, `driver_class`, `jdbc_url`, `db_username`, `db_password`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('A','fund','com.mysql.cj.jdbc.Driver','jdbc:mysql://localhost/tenant_a_fund?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8','root','','*ADMIN','2020-02-15 23:45:51','*ADMIN','2020-02-15 23:46:00');
+insert into `acl_tenant_datasource` (`tenant_id`, `datasource_id`, `driver_class`, `jdbc_url`, `db_username`, `db_password`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('B','fund','com.mysql.cj.jdbc.Driver','jdbc:mysql://localhost/tenant_b_fund?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8','root','','*ADMIN','2020-02-15 23:45:57','*ADMIN','2020-02-15 23:46:06');
+insert into `acl_tenant_datasource` (`tenant_id`, `datasource_id`, `driver_class`, `jdbc_url`, `db_username`, `db_password`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('A','product','com.mysql.cj.jdbc.Driver','jdbc:mysql://localhost/tenant_a_product?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8','root','','*ADMIN','2020-02-15 23:45:51','*ADMIN','2020-02-15 23:46:00');
+insert into `acl_tenant_datasource` (`tenant_id`, `datasource_id`, `driver_class`, `jdbc_url`, `db_username`, `db_password`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) values('B','product','com.mysql.cj.jdbc.Driver','jdbc:mysql://localhost/tenant_b_product?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8','root','','*ADMIN','2020-02-15 23:45:57','*ADMIN','2020-02-15 23:46:06');
+

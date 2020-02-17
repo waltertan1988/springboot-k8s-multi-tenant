@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.walter.app.controller.BaseController;
 import org.walter.app.entity.product.JpaProductSpu;
 import org.walter.app.repository.product.ProductSpuRepository;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-//@RestController
+@RestController
 @RequestMapping(value = "/product")
 public class ProductController extends BaseController {
     @Autowired

@@ -3,6 +3,7 @@ package org.walter.app.configuration.jpa.product;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.walter.base.constant.MultiTenantConstant;
 import org.walter.base.service.MultiTenantContextHolder;
 
@@ -10,7 +11,7 @@ import javax.sql.DataSource;
 import java.util.Map;
 import java.util.Objects;
 
-//@Component
+@Component
 public class MultiTenantProductConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
     @Autowired
     @Qualifier("productMultiTenantRoutingDataSource")

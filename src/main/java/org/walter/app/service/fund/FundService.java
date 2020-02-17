@@ -2,7 +2,6 @@ package org.walter.app.service.fund;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.walter.app.entity.fund.JpaFundAccountBill;
 import org.walter.app.repository.fund.FundAccountBillRepository;
@@ -10,7 +9,7 @@ import org.walter.app.repository.fund.FundAccountBillRepository;
 import java.math.BigDecimal;
 
 @Slf4j
-@Service
+//@Service
 public class FundService {
     @Autowired
     private FundAccountBillRepository fundAccountBillRepository;

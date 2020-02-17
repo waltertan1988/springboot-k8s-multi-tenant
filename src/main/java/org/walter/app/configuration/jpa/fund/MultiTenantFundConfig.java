@@ -4,7 +4,6 @@ import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -23,7 +22,7 @@ import java.util.Properties;
 /**
  * Fund(清结算)的多租户db配置
  */
-@Configuration
+//@Configuration
 @EnableJpaRepositories(
         basePackages={"org.walter.app.repository.fund"},
         entityManagerFactoryRef = "fundMultiTenantEntityManagerFactory",

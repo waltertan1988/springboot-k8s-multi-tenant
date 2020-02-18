@@ -3,3 +3,4 @@ default:
   url: jdbc:mysql://localhost/multi_tenant_base?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
   dbUsername: root
   dbPassword:
+  tenantDataSourceTable: acl_tenant_datasource

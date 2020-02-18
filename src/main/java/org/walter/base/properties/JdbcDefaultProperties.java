@@ -19,4 +19,6 @@ public class JdbcDefaultProperties {
     private String username;
     @Value("${dbPassword}")
     private String password;
+    @Value("${tenantDataSourceTable:tenant_datasource}")
+    private String tenantDataSourceTable;
 }

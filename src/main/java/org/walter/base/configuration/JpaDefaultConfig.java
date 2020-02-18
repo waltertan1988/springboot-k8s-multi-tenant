@@ -73,7 +73,9 @@ public class JpaDefaultConfig implements InitializingBean {
         DataSource defaultDataSource = defaultDataSource();
         TenantDataSourceMapHolder.put(MultiTenantConstant.DEFAULT_TENANT_ID,
                 MultiTenantConstant.DEFAULT_TENANT_ID,defaultDataSource);
-        new JdbcTemplate(defaultDataSource).queryForList("select * from acl_tenant_datasource").forEach(row -> {
+
+        final String SELECT_TENANT_DS_SQL = String.format("select * from %s", jdbcDefaultProperties.getTenantDataSourceTable());
+        new JdbcTemplate(defaultDataSource).queryForList(SELECT_TENANT_DS_SQL).forEach(row -> {
             JpaAclTenantDataSource jpaAclTenantDataSource = new JpaAclTenantDataSource();
             jpaAclTenantDataSource.setTenantId(row.get("tenant_id").toString());
             jpaAclTenantDataSource.setDataSourceId(row.get("datasource_id").toString());
@@ -82,8 +84,8 @@ public class JpaDefaultConfig implements InitializingBean {
             jpaAclTenantDataSource.setDbUsername(row.get("db_username").toString());
             jpaAclTenantDataSource.setDbPassword(row.get("db_password").toString());
             DataSource dataSource = createDataSource(jpaAclTenantDataSource);
-            TenantDataSourceMapHolder.put(jpaAclTenantDataSource.getDataSourceId()
-                    , jpaAclTenantDataSource.getTenantId(), dataSource);
+            TenantDataSourceMapHolder.put(jpaAclTenantDataSource.getDataSourceId(),
+                    jpaAclTenantDataSource.getTenantId(), dataSource);
         });
     }
 

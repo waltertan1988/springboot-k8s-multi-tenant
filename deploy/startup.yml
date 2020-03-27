@@ -27,5 +27,5 @@ spec:
     - port: 7081
       protocol: TCP
       targetPort: 7081
-      nodePort: 37081
+      nodePort: 30081
 

@@ -1,3 +1,8 @@
+
+CREATE DATABASE `multi_tenant_base` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+
+USE `multi_tenant_base`;
+
 # 用户表
 CREATE TABLE `acl_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,

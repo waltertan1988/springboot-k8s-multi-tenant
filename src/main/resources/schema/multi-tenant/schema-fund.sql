@@ -1,4 +1,9 @@
 
+
+CREATE DATABASE `tenant_a_fund` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+CREATE DATABASE `tenant_b_fund` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+
+# 在数据库 tenant_a_fund 和 tenant_b_fund 上创建以下表
 CREATE TABLE `fund_account_bill` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_bin NOT NULL,

@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: multi-tenant-deployment
+spec:
+  revisionHistoryLimit: 10
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: multi-tenant
+    spec:
+      containers:
+        - name: multi-tenant
+          image: waltertan1988/multi-tenant:latest
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: multi-tenant-service
+spec:
+  type: NodePort
+  selector:
+    app: multi-tenant
+  ports:
+    - port: 7081
+      protocol: TCP
+      targetPort: 7081
+      nodePort: 37081
+

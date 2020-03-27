@@ -8,7 +8,7 @@
 ## 部署到kubernetes上
 前提：  
 * kubernetes多节点集群
-* master节点上安装了Git、Maven、镜像仓库（如registry、harbor）、Helm
+* master节点上安装了JDK1.8+、Git、Maven、镜像仓库（如registry、harbor）、Helm
 
 步骤：   
 * 从Github克隆本项目到master节点
@@ -20,7 +20,7 @@ mvn clean package -Dmaven.test.skip=true
 ```
 docker build -t waltertan1988/multi-tenant:latest --build-arg jarFile=multi-tenant-0.0.1-SNAPSHOT.jar --build-arg port=7081 . 
 ```
-* 把镜像上传到镜像仓库：
+* 把镜像上传到镜像仓库（如无镜像仓库，可用docker save/load 命令把镜像传输到node节点）：
 ```
 docker push <仓库ip>:<仓库端口>/waltertan1988/multi-tenant:latest
 ```

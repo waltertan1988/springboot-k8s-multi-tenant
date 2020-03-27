@@ -4,7 +4,7 @@ metadata:
   name: multi-tenant-deployment
 spec:
   revisionHistoryLimit: 10
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:

@@ -1,10 +1,12 @@
 # springboot-multi-tenant
-一个基于Kubernetes + SpringBoot2.x + SpringDataJpa + Hibernate + MySQL，采用“数据库隔离方式”的多租户应用。   
+一个基于Kubernetes + SpringBoot2.x + Spring Data Jpa + Hibernate + MySQL，采用“数据库隔离方式”的多租户应用。   
 在该应用下，不同租户的数据库互相独立，且每个租户可以根据不同业务场景拥有属于自己的多个业务数据库，且各个数据库可以完成各自的事务操作。   
 ## 多租户应用架构设计图
 ![Pandao editor.md](https://github.com/waltertan1988/springboot-multi-tenant/blob/master/docs/charts/%E5%A4%9A%E7%A7%9F%E6%88%B7%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%9B%BE.jpg?raw=true "design.png")
 ## 多租户基础数据
-[示例](https://github.com/waltertan1988/springboot-multi-tenant/tree/master/src/main/resources/schema)
+登录账号/密码：0009785/123456，walter/123456   
+多租户ID：A, B   
+详细的DDL及DML配置参考[这里](https://github.com/waltertan1988/springboot-multi-tenant/tree/master/src/main/resources/schema)
 ## 部署到kubernetes上
 前提：  
 * kubernetes多节点集群   
@@ -20,8 +22,7 @@ node2:  192.168.2.202
 ```shell script
 docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=always --name=docker-registry registry:2
 ```
-* 从Github克隆本项目到master节点
-* maven打包：
+* Git克隆本项目到master节点并用maven打包：
 ```shell script
 mvn clean package -Dmaven.test.skip=true
 ```
@@ -37,4 +38,25 @@ docker push 192.168.2.200:5000/multi-tenant:latest
 ```shell script
 kubectl apply -f startup.yml
 ```
-* 访问应用http://\<nodeIp\>:30081/ping
+* 访问应用：   
+```text
+检测 服务是否已启动
+http://<nodeIp>:30081/ping
+
+返回 默认数据源的数据和多租户数据源数据（A）的并集
+http://<nodeIp>:30081/fund/listObject?tenantId=A
+
+不同租户（A和B），同类型数据源（fund）的写事务回滚
+http://<nodeIp>:30081/fund/deposit?fail=true&tenantId=A
+http://<nodeIp>:30081/fund/deposit?fail=true&tenantId=B
+
+不同租户（A和B），同类型数据源（fund）数据源的写事务提交
+http://<nodeIp>:30081/fund/deposit?fail=false&tenantId=A
+http://<nodeIp>:30081/fund/deposit?fail=false&tenantId=B
+
+同一租户（A）不同数据源类型（product）的事务回滚
+http://<nodeIp>:30081/product/addProductSpu?fail=true&tenantId=A
+
+同一租户（A）不同数据源类型（product）的事务提交
+http://<nodeIp>:30081/product/addProductSpu?fail=false&tenantId=A
+```

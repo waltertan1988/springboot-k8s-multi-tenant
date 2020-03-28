@@ -7,29 +7,34 @@
 [示例](https://github.com/waltertan1988/springboot-multi-tenant/tree/master/src/main/resources/schema)
 ## 部署到kubernetes上
 前提：  
-* kubernetes多节点集群
-* master节点上安装了JDK1.8+、Git、Maven、镜像仓库（如registry、harbor）、Helm
+* kubernetes多节点集群   
+```text
+master: 192.168.2.200
+node1:  192.168.2.201
+node2:  192.168.2.202
+```
+* master节点上安装了JDK1.8+、Git、Maven、镜像仓库（如docker-registry、harbor）
 
 步骤：   
+* 开启master节点上的docker-registry本地镜像仓库：   
+```shell script
+docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=always --name=docker-registry registry:2
+```
 * 从Github克隆本项目到master节点
 * maven打包：
-```
+```shell script
 mvn clean package -Dmaven.test.skip=true
 ```
 * 打包成功后进入target目录，执行以下构建docker镜像命令：
-```
+```shell script
 docker build -t 192.168.2.200:5000/multi-tenant:latest --build-arg jarFile=multi-tenant-0.0.1-SNAPSHOT.jar --build-arg port=7081 . 
 ```
 * 把镜像上传到镜像仓库192.168.2.200:5000（如无镜像仓库，可用docker save/load 命令把镜像传输到node节点）：
-```
+```shell script
 docker push 192.168.2.200:5000/multi-tenant:latest
 ```
-* 在master节点，进入项目工程的deploy目录，创建外部mysql的endpoint及service：
-```
-kubectl apply -f mysql-endpoint.yml
-```
 * 在master节点，进入项目工程的deploy目录，部署应用：
-```
+```shell script
 kubectl apply -f startup.yml
 ```
 * 访问应用http://\<nodeIp\>:30081/ping

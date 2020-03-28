@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:8u191-jre-alpine3.9
 MAINTAINER waltertan waltertan1988@163.com
 ARG jarFile=multi-tenant-0.0.1-SNAPSHOT.jar
 ARG containerPath=/work

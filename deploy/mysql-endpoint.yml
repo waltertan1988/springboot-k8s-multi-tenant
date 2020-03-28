@@ -4,7 +4,7 @@ metadata:
   name: mysql-endpoint
 subsets:
   - addresses:
-      - ip: 172.27.25.6
+      - ip: 192.168.2.102
     ports:
       - port: 3306
 

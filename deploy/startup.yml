@@ -12,8 +12,8 @@ spec:
     spec:
       containers:
         - name: multi-tenant
-          image: waltertan1988/multi-tenant:latest
-          imagePullPolicy: IfNotPresent
+          image: 10.1.218.158:5000/multi-tenant:latest
+          imagePullPolicy: Always
 
 ---
 apiVersion: v1

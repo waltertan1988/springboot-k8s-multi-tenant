@@ -18,11 +18,11 @@ mvn clean package -Dmaven.test.skip=true
 ```
 * 打包成功后进入target目录，执行以下构建docker镜像命令：
 ```
-docker build -t 10.1.218.158:5000/multi-tenant:latest --build-arg jarFile=multi-tenant-0.0.1-SNAPSHOT.jar --build-arg port=7081 . 
+docker build -t 192.168.2.200:5000/multi-tenant:latest --build-arg jarFile=multi-tenant-0.0.1-SNAPSHOT.jar --build-arg port=7081 . 
 ```
-* 把镜像上传到镜像仓库10.1.218.158:5000（如无镜像仓库，可用docker save/load 命令把镜像传输到node节点）：
+* 把镜像上传到镜像仓库192.168.2.200:5000（如无镜像仓库，可用docker save/load 命令把镜像传输到node节点）：
 ```
-docker push 10.1.218.158:5000/multi-tenant:latest
+docker push 192.168.2.200:5000/multi-tenant:latest
 ```
 * 在master节点，进入项目工程的deploy目录，创建外部mysql的endpoint及service：
 ```

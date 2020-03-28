@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: multi-tenant
-          image: 10.1.218.158:5000/multi-tenant:latest
+          image: 192.168.2.200:5000/multi-tenant:latest
           imagePullPolicy: Always
 
 ---

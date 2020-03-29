@@ -9,13 +9,14 @@
 详细的DDL及DML配置参考[这里](https://github.com/waltertan1988/springboot-multi-tenant/tree/master/src/main/resources/schema)
 ## 部署到kubernetes上
 前提：  
-* kubernetes多节点集群   
+* kubernetes多节点集群：   
 ```text
 master: 192.168.2.200
 node1:  192.168.2.201
 node2:  192.168.2.202
 ```
-* master节点上安装了JDK1.8+、Git、Maven、镜像仓库（如docker-registry、harbor）
+* master节点上安装了JDK1.8+、Git、Maven、镜像仓库（如docker-registry、harbor）。   
+* 配置外部的DNS域名k8s.walter.com，指向k8s集群的一个IP（如192.168.2.200），用于以Ingress方式访问k8s应用。   
 
 步骤：   
 * 开启master节点上的docker-registry本地镜像仓库：   
@@ -38,25 +39,30 @@ docker push 192.168.2.200:5000/multi-tenant:latest
 ```shell script
 kubectl apply -f startup.yml
 ```
-* 访问应用：   
+* 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
 ```text
 检测 服务是否已启动
-http://<nodeIp>:30081/ping
+http://<nodeIp>:30080/multi-tenant/ping
 
 返回 默认数据源的数据和多租户数据源数据（A）的并集
-http://<nodeIp>:30081/fund/listObject?tenantId=A
+http://<nodeIp>:30080/multi-tenant/fund/listObject?tenantId=A
 
 不同租户（A和B），同类型数据源（fund）的写事务回滚
-http://<nodeIp>:30081/fund/deposit?fail=true&tenantId=A
-http://<nodeIp>:30081/fund/deposit?fail=true&tenantId=B
+http://<nodeIp>:30080/multi-tenant/fund/deposit?fail=true&tenantId=A
+http://<nodeIp>:30080/multi-tenant/fund/deposit?fail=true&tenantId=B
 
 不同租户（A和B），同类型数据源（fund）数据源的写事务提交
-http://<nodeIp>:30081/fund/deposit?fail=false&tenantId=A
-http://<nodeIp>:30081/fund/deposit?fail=false&tenantId=B
+http://<nodeIp>:30080/multi-tenant/fund/deposit?fail=false&tenantId=A
+http://<nodeIp>:30080/multi-tenant/fund/deposit?fail=false&tenantId=B
 
 同一租户（A）不同数据源类型（product）的事务回滚
-http://<nodeIp>:30081/product/addProductSpu?fail=true&tenantId=A
+http://<nodeIp>:30080/multi-tenant/product/addProductSpu?fail=true&tenantId=A
 
 同一租户（A）不同数据源类型（product）的事务提交
-http://<nodeIp>:30081/product/addProductSpu?fail=false&tenantId=A
+http://<nodeIp>:30080/multi-tenant/product/addProductSpu?fail=false&tenantId=A
+```
+* 以Ingress方式访问应用（端口为30081，即Ingress的NodePort）   
+```text
+检测 服务是否已启动
+http://k8s.walter.com:30081/multi-tenant/ping
 ```

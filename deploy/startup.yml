@@ -44,6 +44,13 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              port: 7081
+              path: /multi-tenant/ping
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
 
 ---
 apiVersion: v1

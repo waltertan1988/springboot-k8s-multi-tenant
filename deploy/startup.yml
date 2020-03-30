@@ -37,6 +37,13 @@ spec:
         - name: multi-tenant
           image: 192.168.2.200:5000/multi-tenant:latest
           imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              port: 7081
+              path: /multi-tenant/ping
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
 
 ---
 apiVersion: v1

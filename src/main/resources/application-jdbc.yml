@@ -1,6 +1,7 @@
 default:
   driverClass: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://10.1.218.157/multi_tenant_base?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+  # 使用k8s集群中的mysql-endpoint的DNS作为连接字符串中的主机名
+  url: jdbc:mysql://mysql-endpoint.default.svc.cluster.local/multi_tenant_base?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
   dbUsername: root
   dbPassword:
   tenantDataSourceTable: acl_tenant_datasource

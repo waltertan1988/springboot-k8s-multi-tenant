@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<dockerRegistry>192.168.2.200:5000</dockerRegistry>
 	</properties>
 
 	<dependencies>
@@ -107,24 +108,33 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<configuration>
-							<tasks>
-								<copy todir="${project.build.directory}">
-									<fileset dir="${basedir}/deploy">
-										<include name="Dockerfile" />
-									</fileset>
-								</copy>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<!-- Dockerfile文件位置 -->
+					<dockerDirectory>${project.basedir}/deploy</dockerDirectory>
+					<imageName>${dockerRegistry}/${project.artifactId}</imageName>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+					<!-- 强制覆盖 -->
+					<forceTags>true</forceTags>
+					<buildArgs>
+						<jarFile>${project.build.finalName}.jar</jarFile>
+						<port>7081</port>
+					</buildArgs>
+					<resources>
+						<resource>
+							<!--指定属性文件的目录，build的过程需要找到它，并且将其放到targetPath下，默认的directory是${basedir}/src/main/resources-->
+							<directory>${project.build.directory}</directory>
+							<!--指定build资源到哪个目录，默认是base directory-->
+							<targetPath>/</targetPath>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

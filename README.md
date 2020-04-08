@@ -37,7 +37,8 @@ mvn clean package docker:build -DpushImageTag -Dmaven.test.skip=true
 ```shell script
 kubectl apply -f startup.yml
 ```
-4. 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
+4. 访问应用
+* 4.1 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
 ```text
 检测 服务是否已启动
 http://<nodeIp>:30080/multi-tenant/ping
@@ -59,7 +60,7 @@ http://<nodeIp>:30080/multi-tenant/product/addProductSpu?fail=true&tenantId=A
 同一租户（A）不同数据源类型（product）的事务提交
 http://<nodeIp>:30080/multi-tenant/product/addProductSpu?fail=false&tenantId=A
 ```
-* 以Ingress方式访问应用（端口为30081，即Ingress的NodePort）   
+* 4.2 以Ingress方式访问应用（端口为30081，即Ingress的NodePort）   
 ```text
 检测 服务是否已启动
 http://k8s.walter.com:30081/multi-tenant/ping

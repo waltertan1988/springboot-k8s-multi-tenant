@@ -21,7 +21,7 @@ node2:  192.168.2.202
 步骤：   
 * 开启master节点上的docker-registry本地镜像仓库：   
 ```shell script
-docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=always --name=docker-registry registry:2
+docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=always --name=docker-registry -e REGISTRY_STORAGE_DELETE_ENABLED=true registry:2
 ```
 * Git克隆本项目到master节点并用maven打包：
 ```shell script

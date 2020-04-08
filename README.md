@@ -37,7 +37,7 @@ mvn clean package docker:build -DpushImageTag -Dmaven.test.skip=true
 ```shell script
 kubectl apply -f startup.yml
 ```
-4. 访问应用
+4. 访问应用：
 * 4.1 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
 ```text
 检测 服务是否已启动

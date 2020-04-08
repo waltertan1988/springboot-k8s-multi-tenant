@@ -4,18 +4,17 @@
 ## 多租户应用架构设计图
 ![Pandao editor.md](https://github.com/waltertan1988/springboot-multi-tenant/blob/master/docs/charts/%E5%A4%9A%E7%A7%9F%E6%88%B7%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%9B%BE.jpg?raw=true "design.png")
 ## 多租户基础数据
-登录账号/密码：0009785/123456，walter/123456   
-多租户ID：A, B   
-详细的DDL及DML配置参考[这里](https://github.com/waltertan1988/springboot-multi-tenant/tree/master/src/main/resources/schema)
+* 登录账号/密码：0009785/123456，walter/123456   
+* 多租户ID：A, B   
+* 详细的DDL及DML配置参考[这里](https://github.com/waltertan1988/springboot-multi-tenant/tree/master/src/main/resources/schema)
 ## 部署到kubernetes上
 ### 前提：  
 * kubernetes多节点集群：   
 ```text
-master: 192.168.2.200
+master: 192.168.2.200，该节点上安装了JDK1.8+、Git、Maven、镜像仓库（如docker-registry、harbor）
 node1:  192.168.2.201
 node2:  192.168.2.202
 ```
-* master节点上安装了JDK1.8+、Git、Maven、镜像仓库（如docker-registry、harbor）。   
 * 配置外部的DNS域名k8s.walter.com，指向k8s集群的一个IP（如192.168.2.200），用于以Ingress方式访问k8s应用。   
 
 ### 步骤：   

@@ -22,22 +22,22 @@ node2:  192.168.2.202
 ```shell script
 docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=always --name=docker-registry -e REGISTRY_STORAGE_DELETE_ENABLED=true registry:2
 ```
-2. Git克隆本项目到master节点，用maven打包并构建docker镜像：
+2. Git克隆本项目到master节点，用maven打包、构建并上传docker镜像：
 ```shell script
-# 以下命令相当于同时执行了两步：
+# 以下命令相当于同时执行了3步：
 # 2.1 mvn clean package -Dmaven.test.skip=true
 # 2.2 docker build -t 192.168.2.200:5000/multi-tenant:latest --build-arg jarFile=multi-tenant-0.0.1-SNAPSHOT.jar --build-arg port=7081 . 
-mvn clean package docker:build -Dmaven.test.skip=true
+# 2.3 docker push 192.168.2.200:5000/multi-tenant:latest
+# docker-maven-plugin插件的使用参考：https://github.com/spotify/docker-maven-plugin/tree/master
+#
+# 如无镜像仓库，可先手工执行2.1和2.2步生成docker镜像，然后用docker save/load 命令把镜像传输到node节点
+mvn clean package docker:build -DpushImageTag -Dmaven.test.skip=true
 ```
-3. 把镜像上传到镜像仓库192.168.2.200:5000（如无镜像仓库，可用docker save/load 命令把镜像传输到node节点）：
-```shell script
-docker push 192.168.2.200:5000/multi-tenant:latest
-```
-4. 在master节点，进入项目工程的deploy目录，部署应用：
+3. 在master节点，进入项目工程的deploy目录，部署应用：
 ```shell script
 kubectl apply -f startup.yml
 ```
-5. 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
+4. 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
 ```text
 检测 服务是否已启动
 http://<nodeIp>:30080/multi-tenant/ping

@@ -30,15 +30,15 @@ docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=
 # 2.2 docker build -t 192.168.2.200:5000/multi-tenant:latest --build-arg jarFile=multi-tenant-0.0.1-SNAPSHOT.jar --build-arg port=7081 . 
 mvn clean package docker:build -Dmaven.test.skip=true
 ```
-4. 把镜像上传到镜像仓库192.168.2.200:5000（如无镜像仓库，可用docker save/load 命令把镜像传输到node节点）：
+3. 把镜像上传到镜像仓库192.168.2.200:5000（如无镜像仓库，可用docker save/load 命令把镜像传输到node节点）：
 ```shell script
 docker push 192.168.2.200:5000/multi-tenant:latest
 ```
-5. 在master节点，进入项目工程的deploy目录，部署应用：
+4. 在master节点，进入项目工程的deploy目录，部署应用：
 ```shell script
 kubectl apply -f startup.yml
 ```
-6. 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
+5. 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
 ```text
 检测 服务是否已启动
 http://<nodeIp>:30080/multi-tenant/ping

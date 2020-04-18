@@ -15,7 +15,7 @@ master: 192.168.2.200，该节点上安装了JDK1.8+、Git、Maven、镜像仓�
 node1:  192.168.2.201
 node2:  192.168.2.202
 ```
-* 配置外部的DNS域名k8s.walter.com，指向k8s集群的一个IP（如192.168.2.200），用于以Ingress方式访问k8s应用。   
+* 配置外部的DNS域名k8s.walter.com，指向k8s集群的一个节点IP（如192.168.2.200），用于以Ingress方式访问k8s应用。   
 
 ### 步骤：   
 1. 开启master节点上的docker-registry本地镜像仓库：   

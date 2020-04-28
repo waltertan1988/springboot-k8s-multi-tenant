@@ -15,6 +15,7 @@ master: 192.168.2.200，该节点上安装了JDK1.8+、Git、Maven、镜像仓�
 node1:  192.168.2.201
 node2:  192.168.2.202
 ```
+* k8s集群配置了Ingress，以NodePort=30080方式对外暴露Http服务。
 * 配置外部的DNS域名k8s.walter.com，指向k8s集群的一个节点IP（如192.168.2.200），用于以Ingress方式访问k8s应用。   
 
 ### 步骤：   

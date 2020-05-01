@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
         - name: multi-tenant
-          image: 192.168.2.200:5000/multi-tenant:0.0.2
+          image: 192.168.2.200:5000/multi-tenant:0.0.2-SNAPSHOT
           imagePullPolicy: Always
           readinessProbe:
             httpGet:

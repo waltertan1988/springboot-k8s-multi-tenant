@@ -123,7 +123,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: multi-tenant-destinationRule
+  name: multi-tenant-destinationrule
 spec:
   host: multi-tenant-service
   subsets:
@@ -138,7 +138,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: multi-tenant-virtualService
+  name: multi-tenant-virtualservice
 spec:
   hosts:
     - multi-tenant-service

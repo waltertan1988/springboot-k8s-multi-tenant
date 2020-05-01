@@ -101,23 +101,23 @@ spec:
       targetPort: 7081
       nodePort: 30081
 
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: multi-tenant-ingress
-  namespace: default
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-spec:
-  rules:
-    - host: k8s.walter.com
-      http:
-        paths:
-          - path: /multi-tenant
-            backend:
-              serviceName: multi-tenant-service
-              servicePort: 7081
+#---
+#apiVersion: extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: multi-tenant-ingress
+#  namespace: default
+#  annotations:
+#    kubernetes.io/ingress.class: "nginx"
+#spec:
+#  rules:
+#    - host: k8s.walter.com
+#      http:
+#        paths:
+#          - path: /multi-tenant
+#            backend:
+#              serviceName: multi-tenant-service
+#              servicePort: 7081
 
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -146,4 +146,4 @@ spec:
     - route:
         - destination:
             host: multi-tenant-service
-            subset: v2
+            subset: v1

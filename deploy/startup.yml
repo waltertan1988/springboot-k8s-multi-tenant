@@ -43,15 +43,15 @@ spec:
               port: 7081
               path: /multi-tenant/ping
               scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 20
+            periodSeconds: 10
           livenessProbe:
             httpGet:
               port: 7081
               path: /multi-tenant/ping
               scheme: HTTP
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 60
+            periodSeconds: 30
 
 ---
 apiVersion: extensions/v1beta1
@@ -76,15 +76,15 @@ spec:
               port: 7081
               path: /multi-tenant/ping
               scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 20
+            periodSeconds: 10
           livenessProbe:
             httpGet:
               port: 7081
               path: /multi-tenant/ping
               scheme: HTTP
-            initialDelaySeconds: 30
-            periodSeconds: 5
+            initialDelaySeconds: 60
+            periodSeconds: 30
 
 ---
 apiVersion: v1

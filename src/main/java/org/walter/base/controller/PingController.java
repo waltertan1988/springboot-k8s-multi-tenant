@@ -9,9 +9,11 @@ import java.net.UnknownHostException;
 @RestController
 public class PingController {
 
+    public final String APP_VERSION = System.getenv("appVersion");
+
     @GetMapping("/ping")
     public String ping() throws UnknownHostException {
         InetAddress addr = InetAddress.getLocalHost();
-        return String.format("Success. hostname=%s, address=%s", addr.getHostName(), addr.getHostAddress());
+        return String.format("Success. hostname=%s, address=%s, appVersion=%s\n", addr.getHostName(), addr.getHostAddress(), APP_VERSION);
     }
 }

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.walter</groupId>
 	<artifactId>multi-tenant</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-hibernate-multi-tenant</name>
 	<description>Spring Hibernate Multi-Tenant Demo</description>
 

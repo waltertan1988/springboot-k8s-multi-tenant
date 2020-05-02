@@ -24,7 +24,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: multi-tenant-deployment-0.0.1
+  name: multi-tenant-deployment-v1
 spec:
   revisionHistoryLimit: 10
   replicas: 1
@@ -32,12 +32,15 @@ spec:
     metadata:
       labels:
         app: multi-tenant
-        version: 0.0.1
+        version: v1
     spec:
       containers:
         - name: multi-tenant
-          image: 192.168.2.200:5000/multi-tenant:0.0.1
+          image: 192.168.2.200:5000/multi-tenant:0.0.1-SNAPSHOT
           imagePullPolicy: Always
+          env:
+            - name: appVersion
+              value: v1
           readinessProbe:
             httpGet:
               port: 7081
@@ -57,7 +60,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: multi-tenant-deployment-0.0.2
+  name: multi-tenant-deployment-v2
 spec:
   revisionHistoryLimit: 10
   replicas: 1
@@ -65,12 +68,15 @@ spec:
     metadata:
       labels:
         app: multi-tenant
-        version: 0.0.2
+        version: v2
     spec:
       containers:
         - name: multi-tenant
-          image: 192.168.2.200:5000/multi-tenant:0.0.2-SNAPSHOT
+          image: 192.168.2.200:5000/multi-tenant:0.0.1-SNAPSHOT
           imagePullPolicy: Always
+          env:
+            - name: appVersion
+              value: v2
           readinessProbe:
             httpGet:
               port: 7081
@@ -129,10 +135,10 @@ spec:
   subsets:
     - name: v1
       labels:
-        version: 0.0.1
+        version: v1
     - name: v2
       labels:
-        version: 0.0.2
+        version: v2
 
 ---
 apiVersion: networking.istio.io/v1alpha3

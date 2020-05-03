@@ -153,3 +153,8 @@ spec:
         - destination:
             host: multi-tenant-service.default.svc.cluster.local
             subset: v1
+          weight: 80
+        - destination:
+            host: multi-tenant-service.default.svc.cluster.local
+            subset: v2
+          weight: 20

@@ -10,7 +10,7 @@ spec:
         - sourceLabels:
             app: sleep
             version: v1
-      route:
+        route:
         - destination:
             host: multi-tenant-service.default.svc.cluster.local
             subset: v2

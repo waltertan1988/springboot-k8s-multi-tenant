@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: multi-tenant-virtualservice-resourceLabels
+spec:
+  hosts:
+    - multi-tenant-service.default.svc.cluster.local
+  http:
+    - match:
+        - sourceLabels:
+            app: sleep
+            version: v2
+      route:
+        - destination:
+            host: multi-tenant-service.default.svc.cluster.local
+            subset: v2
+    - route:
+        - destination:
+            host: multi-tenant-service.default.svc.cluster.local
+            subset: v1

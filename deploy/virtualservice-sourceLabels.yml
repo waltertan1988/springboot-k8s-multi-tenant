@@ -9,7 +9,7 @@ spec:
     - match:
         - sourceLabels:
             app: sleep
-            version: v2
+            version: v1
       route:
         - destination:
             host: multi-tenant-service.default.svc.cluster.local

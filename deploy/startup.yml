@@ -124,37 +124,3 @@ spec:
 #            backend:
 #              serviceName: multi-tenant-service
 #              servicePort: 7081
-
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: multi-tenant-destinationrule
-spec:
-  host: multi-tenant-service.default.svc.cluster.local
-  subsets:
-    - name: v1
-      labels:
-        version: v1
-    - name: v2
-      labels:
-        version: v2
-
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: multi-tenant-virtualservice
-spec:
-  hosts:
-    - multi-tenant-service.default.svc.cluster.local
-  http:
-    - route:
-        - destination:
-            host: multi-tenant-service.default.svc.cluster.local
-            subset: v1
-          weight: 80
-        - destination:
-            host: multi-tenant-service.default.svc.cluster.local
-            subset: v2
-          weight: 20

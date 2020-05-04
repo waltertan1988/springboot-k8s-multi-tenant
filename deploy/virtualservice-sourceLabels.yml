@@ -18,6 +18,7 @@ spec:
       retries:
         attempts: 2
         perTryTimeout: 1s
+        retryOn: "5xx"
     - route:
         - destination:
             host: multi-tenant-service.default.svc.cluster.local
@@ -26,3 +27,4 @@ spec:
       retries:
         attempts: 2
         perTryTimeout: 1s
+        retryOn: "5xx"

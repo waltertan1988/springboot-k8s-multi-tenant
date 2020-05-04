@@ -19,3 +19,4 @@ spec:
       retries:
         attempts: 2
         perTryTimeout: 1s
+        retryOn: "5xx"

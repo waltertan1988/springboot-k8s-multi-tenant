@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private String[] permitAntPatterns(){
         return new String[]{
-                "/error", "/ping"
+                "/error", "/ping", "/fail", "/delay/**"
         };
     }
 

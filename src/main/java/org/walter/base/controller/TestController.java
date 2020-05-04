@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @RestController
-public class PingController {
+public class TestController {
 
     public final String APP_VERSION = System.getenv("appVersion");
 

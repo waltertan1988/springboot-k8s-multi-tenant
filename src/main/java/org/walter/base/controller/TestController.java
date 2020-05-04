@@ -1,5 +1,6 @@
 package org.walter.base.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+@Slf4j
 @RestController
 public class TestController {
 
@@ -28,6 +30,7 @@ public class TestController {
     @GetMapping("/fail")
     @ResponseStatus
     public Boolean fail() {
+        log.info("[Fail] executing...");
         return true;
     }
 }

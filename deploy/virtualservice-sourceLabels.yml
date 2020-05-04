@@ -14,7 +14,15 @@ spec:
         - destination:
             host: multi-tenant-service.default.svc.cluster.local
             subset: v2
+      timeout: 3s
+      retries:
+        attempts: 2
+        perTryTimeout: 1s
     - route:
         - destination:
             host: multi-tenant-service.default.svc.cluster.local
             subset: v1
+      timeout: 3s
+      retries:
+        attempts: 2
+        perTryTimeout: 1s

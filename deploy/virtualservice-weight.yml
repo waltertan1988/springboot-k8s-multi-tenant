@@ -15,3 +15,7 @@ spec:
             host: multi-tenant-service.default.svc.cluster.local
             subset: v2
           weight: 20
+      timeout: 3s
+      retries:
+        attempts: 2
+        perTryTimeout: 1s

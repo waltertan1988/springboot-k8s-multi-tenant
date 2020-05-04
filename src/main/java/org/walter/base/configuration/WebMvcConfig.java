@@ -10,12 +10,14 @@ import org.walter.base.service.InitTenantIdInterceptor;
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Autowired
     private InitTenantIdInterceptor initTenantIdInterceptor;
+    @Autowired
+    private SecurityConfiguration securityConfiguration;
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(initTenantIdInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/ping");
+                .excludePathPatterns(securityConfiguration.getPermitAntPatterns());
         super.addInterceptors(registry);
     }
 }

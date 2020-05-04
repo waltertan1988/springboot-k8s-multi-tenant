@@ -14,7 +14,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers(permitAntPatterns()).permitAll()
+                .antMatchers(getPermitAntPatterns()).permitAll()
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
 
-    private String[] permitAntPatterns(){
+    public String[] getPermitAntPatterns(){
         return new String[]{
                 "/error", "/ping", "/fail", "/delay/**"
         };

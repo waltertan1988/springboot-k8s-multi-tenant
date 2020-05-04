@@ -113,7 +113,7 @@
 				<version>1.2.2</version>
 				<configuration>
 					<!-- Dockerfile文件位置 -->
-					<dockerDirectory>${project.basedir}/deploy</dockerDirectory>
+					<dockerDirectory>${project.basedir}/deploy/docker</dockerDirectory>
 					<imageName>${dockerRegistry}/${project.artifactId}</imageName>
 					<imageTags>
 						<imageTag>${project.version}</imageTag>

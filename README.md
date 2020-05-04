@@ -34,9 +34,10 @@ docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=
 # 如无镜像仓库，可先手工执行2.1和2.2步生成docker镜像，然后用docker save/load 命令把镜像传输到node节点
 mvn clean package docker:build -DpushImageTag -Dmaven.test.skip=true
 ```
-3. 在master节点，进入项目工程的deploy目录，部署应用：
+3. 在master节点，进入项目工程的deploy目录，部署应用及Ingress：
 ```shell script
-kubectl apply -f startup.yml
+kubectl apply -f app-multi-tenant.yml
+kubectl apply -f k8s-ingress.yml
 ```
 4. 访问应用：
 * 4.1 以应用本身的Service的NodePort方式访问应用（端口为30080）：   

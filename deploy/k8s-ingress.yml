@@ -1,0 +1,17 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: multi-tenant-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: k8s.walter.com
+      http:
+        paths:
+          - path: /multi-tenant
+            backend:
+              serviceName: multi-tenant-service
+              servicePort: 7081

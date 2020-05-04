@@ -5,6 +5,10 @@ metadata:
 spec:
   hosts:
     - multi-tenant-service.default.svc.cluster.local
+    - k8s.walter.com
+  gateways:
+    - mesh
+    - multi-tenant-gateway
   http:
     - route:
         - destination:

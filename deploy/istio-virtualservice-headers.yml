@@ -5,6 +5,9 @@ metadata:
 spec:
   hosts:
     - multi-tenant-service.default.svc.cluster.local
+  gateways:
+    - mesh
+    - multi-tenant-gateway
   http:
     - match:
         - headers:

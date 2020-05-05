@@ -1,5 +1,5 @@
 # springboot-multi-tenant
-一个基于Kubernetes + SpringBoot2.x + Spring Data Jpa + Hibernate + MySQL，采用“数据库隔离方式”的多租户应用。   
+一个基于Kubernetes1.15 + Istio1.5 + SpringBoot2.x + Spring Data Jpa + Hibernate + MySQL，采用“数据库隔离方式”的多租户应用。   
 在该应用下，不同租户的数据库互相独立，且每个租户可以根据不同业务场景拥有属于自己的多个业务数据库，且各个数据库可以完成各自的事务操作。   
 ## 多租户应用架构设计图
 ![Pandao editor.md](https://github.com/waltertan1988/springboot-multi-tenant/blob/master/docs/charts/%E5%A4%9A%E7%A7%9F%E6%88%B7%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%9B%BE.jpg?raw=true "design.png")
@@ -17,6 +17,7 @@ node2:  192.168.2.202
 ```
 * k8s集群配置了Ingress，以NodePort=30080方式对外暴露Http服务。
 * 配置外部的DNS域名k8s.walter.com，指向k8s集群的一个节点IP（如192.168.2.200），用于以Ingress方式访问k8s应用。   
+* 集群部署了Istio
 
 ### 步骤：   
 1. 开启master节点上的docker-registry本地镜像仓库：   
@@ -34,13 +35,12 @@ docker run -d -p 5000:5000 -v /work/docker_registry:/var/lib/registry --restart=
 # 如无镜像仓库，可先手工执行2.1和2.2步生成docker镜像，然后用docker save/load 命令把镜像传输到node节点
 mvn clean package docker:build -DpushImageTag -Dmaven.test.skip=true
 ```
-3. 在master节点，进入项目工程的deploy目录，部署应用及Ingress：
+3. 在master节点，进入项目工程的deploy目录，部署应用：
 ```shell script
 kubectl apply -f app-multi-tenant.yml
-kubectl apply -f k8s-ingress.yml
 ```
-4. 访问应用：
-* 4.1 以应用本身的Service的NodePort方式访问应用（端口为30080）：   
+4. 访问应用（可采用以下3种的其中一种访问）：
+* 4.1 以k8s的Service的NodePort方式访问应用（端口为30081）：   
 ```text
 检测 服务是否已启动
 http://<nodeIp>:30081/multi-tenant/ping
@@ -62,8 +62,32 @@ http://<nodeIp>:30081/multi-tenant/product/addProductSpu?fail=true&tenantId=A
 同一租户（A）不同数据源类型（product）的事务提交
 http://<nodeIp>:30081/multi-tenant/product/addProductSpu?fail=false&tenantId=A
 ```
-* 4.2 以Ingress方式访问应用（端口为30080，即Ingress的NodePort）   
+* 4.2 以k8s的Ingress方式访问应用：   
+```shell script
+# 部署k8s的ingress
+kubectl apply -f k8s-ingress.yml
+```
 ```text
 检测 服务是否已启动
 http://k8s.walter.com:30080/multi-tenant/ping
+```
+* 4.3 以Istio的ingressgateway方式访问应用（端口为80，即Istio默认安装的ingressgateway的Service端口）:   
+```shell script
+# 由于自搭建k8s的Service没有LoadBalance，因此用以下命令添加把Service暴露到集群节点上的配置
+kubectl edit svc istio-ingressgateway -n istio-system
+......
+spec:
+  externalIPs:
+  - 192.168.2.200
+......
+```
+```shell script
+# 部署Istio的DestinationRule、VirtualService、Gateway
+kubectl apply -f istio-destinationrule.yml
+kubectl apply -f istio-virtualservice-default.yml
+kubectl apply -f istio-gateway.yml
+```
+```text
+检测 服务是否已启动
+http://k8s.walter.com/multi-tenant/ping
 ```
